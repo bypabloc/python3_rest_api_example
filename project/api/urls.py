@@ -1,7 +1,7 @@
 from django.urls import path, include
-from .views import CompanyView
+from .views import findAll
 
 urlpatterns = [
-    path('companies/', CompanyView.as_view(), name='companies_list'),
+    path('companies/', findAll.as_view(), name='companies_list'),
     # path('<int:pk>/', CompanyView.as_view()),
 ]

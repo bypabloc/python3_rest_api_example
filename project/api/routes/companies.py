@@ -1,6 +1,7 @@
 from django.urls import path
-from ..controllers.index import snippet_list
+from ..controllers.index import findAll, create
 
 urlpatterns = [
-    path('', snippet_list, name='companies_list'),
+    path('find_all', findAll, name='companies_find_all'),
+    path('create', create, name='companies_create'),
 ]
