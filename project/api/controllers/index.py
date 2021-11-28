@@ -1,13 +1,13 @@
-from django.http.response import JsonResponse
+from rest_framework import status
 from rest_framework.decorators import api_view
-from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from ..models import Company
-import json
+from ..validations.company import CompanyValidation
 
 @api_view(['GET'])
 def findAll(request):
+
     companies = list(Company.objects.values())
 
     if len(companies) > 0:
@@ -26,24 +26,25 @@ def findAll(request):
 @api_view(['POST'])
 @csrf_exempt
 def create(request):
-    data = {}
+    
+    company = CompanyValidation(request.POST)
+
+    if company.is_valid():
+        company.save()
+        data = {
+            'data': company.cleaned_data,
+        }
+        return Response(data, status=status.HTTP_201_CREATED)
+    else:
+        data = {
+            'errors': company.getErrors(),
+        }
+        return Response(data, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     try:
-
-        body = json.loads(request.body)
-        data['body'] = body
-
-        Company.objects.create(
-            name=body['name'],
-            description=body['description'],
-            url=body['url'],
-            city=body['city'],
-            address=body['address'],
-        )
-
-        data['status'] = 'success'
-        data['message'] = 'Creado exitosamente'
-
+        data = {
+            'status': 'success',
+        }
     except Exception as ex:
         trace = []
         tb = ex.__traceback__
@@ -59,6 +60,6 @@ def create(request):
             'status': 'error',
             'message': 'No hay datos',
             'trace': trace,
+            'body': body,
         }
     
-    return Response(data)
