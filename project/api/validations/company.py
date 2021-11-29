@@ -2,7 +2,7 @@ from django import forms
 from ..models import Company
 import json
 
-class CompanyValidation(forms.Form):
+class CompanyFormCreate(forms.Form):
     name = forms.CharField(max_length=50, )
     description = forms.CharField( required=False, )
     url = forms.CharField(max_length=100)
@@ -16,10 +16,6 @@ class CompanyValidation(forms.Form):
 
         if Company.objects.filter(name=data['name']).exists():
             self.add_error('name', 'Company already exists')
-
-        # if data.get('password') != data.get('password_confirm'):
-        #     self._errors['password'] = self.error_class([
-        #         'Minimum 5 characters required'])
         
         return data
 

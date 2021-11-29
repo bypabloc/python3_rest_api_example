@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from ..models import Company
-from ..validations.company import CompanyValidation
+from ..validations.company import CompanyFormCreate
 
 @api_view(['GET'])
 def findAll(request):
@@ -27,7 +27,7 @@ def findAll(request):
 @csrf_exempt
 def create(request):
     
-    company = CompanyValidation(request.POST)
+    company = CompanyFormCreate(request.POST)
 
     if company.is_valid():
         company.save()
