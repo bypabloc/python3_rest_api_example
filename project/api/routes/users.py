@@ -1,5 +1,5 @@
 from django.urls import path
-from ..controllers.CompanyController import findAll, create
+from ..controllers.UserController import findAll, create
 
 urlpatterns = [
     path('find_all', findAll, name='companies_find_all'),

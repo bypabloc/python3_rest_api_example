@@ -1,6 +1,6 @@
 from django.db import models
+import uuid
 
-# Create your models here.
 class Company(models.Model):
     name = models.CharField(max_length=50, null=False, unique=True)
     description = models.TextField( null=True, )
@@ -11,9 +11,20 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
+class User(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    email = models.CharField(max_length=50, unique=True)
+    password = models.TextField()
+    status = models.IntegerField(default=0)
+    last_login_at = models.DateTimeField(null=True)
+    last_ip_address = models.TextField(null=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    created_at = models.DateTimeField(default='NOW()')
+    updated_at = models.DateTimeField(null=True)
 
-    # name = models.CharField(max_length=50, unique=True)
-    # description = models.TextField(null=False, blank=False)
-    # url = models.CharField(max_length=100)
-    # city = models.CharField(max_length=255)
-    # address = models.CharField(max_length=255)
+    # class Meta:
+        # managed = False
+        # db_table = "uasdser"
+
+    def __str__(self):
+        return self.name
