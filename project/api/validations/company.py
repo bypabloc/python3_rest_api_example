@@ -15,7 +15,7 @@ class CompanyFormCreate(forms.Form):
         print(data)
 
         if Company.objects.filter(name=data['name']).exists():
-            self.add_error('name', 'Company already exists')
+            self.add_error('name', 'Already exists')
         
         return data
 

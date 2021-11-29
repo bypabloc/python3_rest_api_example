@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import datetime
 
 class Company(models.Model):
     name = models.CharField(max_length=50, null=False, unique=True)
@@ -19,7 +20,7 @@ class User(models.Model):
     last_login_at = models.DateTimeField(null=True)
     last_ip_address = models.TextField(null=True)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
-    created_at = models.DateTimeField(default='NOW()')
+    created_at = models.DateTimeField(default=datetime.datetime.now())
     updated_at = models.DateTimeField(null=True)
 
     # class Meta:
