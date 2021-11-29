@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('last_login_at', models.DateTimeField(null=True)),
                 ('last_ip_address', models.TextField(null=True)),
                 ('uuid', models.UUIDField(default=uuid.uuid4, unique=True)),
-                ('created_at', models.DateTimeField(default='NOW()')),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(null=True)),
             ],
         ),
