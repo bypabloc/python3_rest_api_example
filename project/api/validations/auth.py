@@ -5,12 +5,14 @@ import crypt
 import getpass
 import pwd
 from hmac import compare_digest as compare_hash
+from ..helpers.jwt import generateToken
 
 class AuthSignUpForm(forms.Form):
     name = forms.CharField(max_length=50)
     email = forms.CharField(max_length=50)
     password = forms.CharField(max_length=50)
     password_confirmation = forms.CharField(max_length=50)
+    token = forms.CharField(required=False)
 
     def clean(self):
         data = self.cleaned_data
@@ -28,11 +30,15 @@ class AuthSignUpForm(forms.Form):
     def save(self):
         data = self.cleaned_data
 
-        return User.objects.create(
+        user = User.objects.create(
             name=data['name'],
             email=data['email'],
             password=crypt.crypt(data['password']),
         )
+
+        self.cleaned_data['token'] = user.token
+
+        return user
 
     def getErrors(self):
         errors = json.loads(self._errors.as_json())

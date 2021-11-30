@@ -2,12 +2,13 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
+from ..helpers.jwt import generateToken
 from ..validations.auth import AuthSignUpForm, AuthSignInForm, AuthSignOutForm
 
 @api_view(['POST'])
 @csrf_exempt
 def signUp(request):
-    
+
     user = AuthSignUpForm(request.POST)
 
     if user.is_valid():

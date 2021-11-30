@@ -32,31 +32,11 @@ class User(models.Model):
         return self.name
 
 class Session(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    email = models.CharField(max_length=50, unique=True)
-    password = models.TextField()
-    status = models.IntegerField(default=0)
-    last_login_at = models.DateTimeField(null=True)
-    last_ip_address = models.TextField(null=True)
-    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    token = models.TextField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.deletion.DO_NOTHING)
+    expired_at = models.DateTimeField()
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(null=True)
 
-    # class Meta:
-        # managed = False
-        # db_table = "uasdser"
-
     def __str__(self):
         return self.name
-
-# ('token', models.TextField(primary_key=True, unique=True)),
-# (
-#     'user',
-#     models.ForeignKey(
-#         on_delete=models.deletion.DO_NOTHING,
-#         to='api.User',
-#     ),
-# ),
-# ('expired_at', models.DateTimeField()),
-# ('created_at', models.DateTimeField(auto_now_add=True)),
-# ('updated_at', models.DateTimeField(null=True)),
